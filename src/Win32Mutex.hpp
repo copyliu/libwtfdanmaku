@@ -4,28 +4,33 @@
 #include <Windows.h>
 #include "Noncopyable.hpp"
 
-namespace WTFDanmaku {
-
-    class Win32Mutex : public Noncopyable {
+namespace WTFDanmaku
+{
+    class Win32Mutex : public Noncopyable
+    {
     public:
-        inline explicit Win32Mutex() {
+        explicit Win32Mutex()
+        {
             InitializeCriticalSection(&cs);
         }
-        
-        inline ~Win32Mutex() {
+
+        ~Win32Mutex()
+        {
             DeleteCriticalSection(&cs);
         }
 
-        inline void lock() {
+        void lock()
+        {
             EnterCriticalSection(&cs);
         }
 
-        inline void unlock() {
+        void unlock()
+        {
             LeaveCriticalSection(&cs);
         }
+
     private:
         CRITICAL_SECTION cs;
     };
-
 }
 #endif // _WTF_WIN32_MUTEX_HPP

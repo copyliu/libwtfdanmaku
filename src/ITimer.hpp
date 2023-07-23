@@ -7,9 +7,10 @@
 
 using std::shared_ptr;
 
-namespace WTFDanmaku {
-
-    class ITimer : public Noncopyable {
+namespace WTFDanmaku
+{
+    class ITimer : public Noncopyable
+    {
     public:
         explicit ITimer() = default;
         virtual ~ITimer() = default;
@@ -22,8 +23,7 @@ namespace WTFDanmaku {
         virtual time_t GetMilliseconds() = 0;
     };
 
-    typedef shared_ptr<ITimer> TimerRef;
-
+    using TimerRef = shared_ptr<ITimer>;
 }
 
 #endif // _WTF_TIMER_HPP

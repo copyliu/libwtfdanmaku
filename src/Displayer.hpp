@@ -11,12 +11,13 @@
 
 using Microsoft::WRL::ComPtr;
 
-namespace WTFDanmaku {
-
+namespace WTFDanmaku
+{
     class DisplayerImpl;
     struct DanmakuConfig;
 
-    class Displayer : public Noncopyable {
+    class Displayer : public Noncopyable
+    {
     public:
         explicit Displayer();
         ~Displayer();
@@ -37,10 +38,10 @@ namespace WTFDanmaku {
         HRESULT EndDraw();
         ComPtr<ID2D1Factory1> GetD2DFactory();
         ComPtr<IDWriteFactory> GetDWriteFactory();
+
     private:
         std::unique_ptr<DisplayerImpl> pImpl;
     };
-
 }
 
 #endif // _WTF_DISPLAYER_HPP

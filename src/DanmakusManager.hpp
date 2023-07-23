@@ -14,12 +14,13 @@
 
 using std::unique_ptr;
 
-namespace WTFDanmaku {
-
+namespace WTFDanmaku
+{
     class Displayer;
     class DanmakusRetainer;
 
-    struct RenderingStatistics {
+    struct RenderingStatistics
+    {
     public:
         float fps = 0.0f;
         time_t lastFrameTime = 0;
@@ -27,7 +28,8 @@ namespace WTFDanmaku {
         HRESULT lastHr = NULL;
     };
 
-    class DanmakusManager : public Noncopyable {
+    class DanmakusManager : public Noncopyable
+    {
     public:
         explicit DanmakusManager();
         ~DanmakusManager();
@@ -41,14 +43,19 @@ namespace WTFDanmaku {
         DanmakuConfig* GetConfig();
         RenderingStatistics DrawDanmakus(Displayer* displayer);
         RenderingStatistics GetRenderingStatistics();
+
     private:
         void FetchNewDanmakus(Displayer* displayer);
         void RemoveTimeoutDanmakus();
+
     private:
-        struct TimeComparator {
-            bool operator() (const DanmakuRef& a, const DanmakuRef& b) const;
+        struct TimeComparator
+        {
+            bool operator()(const DanmakuRef& a, const DanmakuRef& b) const;
         };
-        typedef std::set<DanmakuRef, TimeComparator> TimeSortedDanmakus;
+
+        using TimeSortedDanmakus = std::set<DanmakuRef, TimeComparator>;
+
     private:
         TimerRef mTimer;
         bool mForceFetch = false;
@@ -62,7 +69,6 @@ namespace WTFDanmaku {
         DanmakuConfig mConfig;
         RenderingStatistics mStatistics;
     };
-
 }
 
 #endif // _WTF_DANMAKUS_MANAGER_HPP

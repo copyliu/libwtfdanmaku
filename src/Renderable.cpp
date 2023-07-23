@@ -5,9 +5,10 @@
 #include "DanmakuConfig.hpp"
 #include "OutlineTextRenderer.hpp"
 
-namespace WTFDanmaku {
-
-    bool Renderable::BuildTextLayout(Displayer* displayer, DanmakuConfig* config) {
+namespace WTFDanmaku
+{
+    bool Renderable::BuildTextLayout(Displayer* displayer, DanmakuConfig* config)
+    {
         ComPtr<IDWriteFactory> dwFactory = displayer->GetDWriteFactory();
         if (nullptr == dwFactory)
             return false;
@@ -17,15 +18,17 @@ namespace WTFDanmaku {
         float fontSize = mDanmaku->mTextSize * config->FontScaleFactor;
         fontSize *= displayer->GetDpiY() / 96.0f;
 
-        HRESULT hr = dwFactory->CreateTextFormat(config->FontName.c_str(), nullptr, config->FontWeight, config->FontStyle,
-            config->FontStretch, fontSize, L"zh-cn", &textFormat);
+        HRESULT hr = dwFactory->CreateTextFormat(config->FontName.c_str(), nullptr, config->FontWeight,
+                                                 config->FontStyle,
+                                                 config->FontStretch, fontSize, L"zh-cn", &textFormat);
         if (FAILED(hr) || nullptr == textFormat)
             return false;
 
         textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
         textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
-        hr = dwFactory->CreateTextLayout(mDanmaku->mComment.c_str(), static_cast<UINT32>(mDanmaku->mComment.length()), textFormat.Get(), 8192.0f, 2160.0f, &mTextLayout);
+        hr = dwFactory->CreateTextLayout(mDanmaku->mComment.c_str(), mDanmaku->mComment.length(), textFormat.Get(),
+                                         8192.0f, 2160.0f, &mTextLayout);
         if (FAILED(hr) || nullptr == mTextLayout)
             return false;
 
@@ -40,12 +43,14 @@ namespace WTFDanmaku {
         return true;
     }
 
-    bool Renderable::HasBitmap(DanmakuConfig* config) {
+    bool Renderable::HasBitmap(DanmakuConfig* config)
+    {
         return mBitmap.Get() != nullptr
             && mBitmapValidFlag == config->BitmapValidFlag;
     }
 
-    bool Renderable::BuildBitmap(Displayer* displayer, DanmakuConfig* config) {
+    bool Renderable::BuildBitmap(Displayer* displayer, DanmakuConfig* config)
+    {
         if (!HasTextLayout())
             return false;
 
@@ -78,13 +83,17 @@ namespace WTFDanmaku {
         ComPtr<ID2D1SolidColorBrush> outlineBrush;
         renderTarget->CreateSolidColorBrush(D2D1::ColorF(mDanmaku->mTextShadowColor, 1.0f), &outlineBrush);
 
-        switch (config->DanmakuStyle) {
-            case kOutline: {
-                ComPtr<OutlineTextRenderer> textRenderer(new OutlineTextRenderer(d2dFactory, renderTarget, outlineBrush, strokeWidth, brush));
+        switch (config->DanmakuStyle)
+        {
+        case kOutline:
+            {
+                ComPtr<OutlineTextRenderer> textRenderer(
+                    new OutlineTextRenderer(d2dFactory, renderTarget, outlineBrush, strokeWidth, brush));
                 mTextLayout->Draw(renderTarget.Get(), textRenderer.Get(), 0.0f, 0.0f);
                 break;
             }
-            case kProjection: {
+        case kProjection:
+            {
                 renderTarget->DrawTextLayout(D2D1::Point2F(1.0f, 1.0f), mTextLayout.Get(), outlineBrush.Get());
                 renderTarget->DrawTextLayout(D2D1::Point2F(0.0f, 0.0f), mTextLayout.Get(), brush.Get());
                 break;
@@ -102,5 +111,4 @@ namespace WTFDanmaku {
         mBitmapValidFlag = config->BitmapValidFlag;
         return true;
     }
-
 }

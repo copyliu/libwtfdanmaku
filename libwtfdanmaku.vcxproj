@@ -1,217 +1,217 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{817EBE08-2BE4-4251-92D0-117822D8F16A}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>libwtfdanmaku</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(Configuration)\$(Platform)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(Configuration)\$(Platform)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(Configuration)\$(Platform)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(Configuration)\$(Platform)\</IntDir>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="include\WTFDanmaku.h" />
-    <ClInclude Include="include\WTFEngine.hpp" />
-    <ClInclude Include="include\WTFWindow.hpp" />
-    <ClInclude Include="include\WTF_API.h" />
-    <ClInclude Include="src\BaseDanmaku.hpp" />
-    <ClInclude Include="src\base\Atomic.hpp" />
-    <ClInclude Include="src\base\Atomic_GCC.hpp" />
-    <ClInclude Include="src\base\Atomic_Win32.hpp" />
-    <ClInclude Include="src\base\Noncopyable.hpp" />
-    <ClInclude Include="src\base\RefBase.hpp" />
-    <ClInclude Include="src\base\RefCounted.hpp" />
-    <ClInclude Include="src\base\RefPtr.hpp" />
-    <ClInclude Include="src\base\SmartRef.hpp" />
-    <ClInclude Include="src\BilibiliParser.hpp" />
-    <ClInclude Include="src\OutlineTextRenderer.hpp" />
-    <ClInclude Include="src\BottomDanmaku.hpp" />
-    <ClInclude Include="src\DanmakusManager.hpp" />
-    <ClInclude Include="src\Displayer.hpp" />
-    <ClInclude Include="src\DisplayerImpl.hpp" />
-    <ClInclude Include="src\DanmakuConfig.hpp" />
-    <ClInclude Include="src\ITimer.hpp" />
-    <ClInclude Include="src\IParser.hpp" />
-    <ClInclude Include="src\R2LDanmaku.hpp" />
-    <ClInclude Include="src\Renderable.hpp" />
-    <ClInclude Include="src\DanmakusRetainer.hpp" />
-    <ClInclude Include="src\Controller.hpp" />
-    <ClInclude Include="src\Win32Mutex.hpp" />
-    <ClInclude Include="src\DanmakuFactory.hpp" />
-    <ClInclude Include="src\Noncopyable.hpp" />
-    <ClInclude Include="src\Rect.hpp" />
-    <ClInclude Include="src\TopDanmaku.hpp" />
-    <ClInclude Include="src\WinmmTimer.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\BilibiliParser.cpp" />
-    <ClCompile Include="src\OutlineTextRenderer.cpp" />
-    <ClCompile Include="src\BottomDanmaku.cpp" />
-    <ClCompile Include="src\DisplayerImpl.cpp" />
-    <ClCompile Include="src\BaseDanmaku.cpp" />
-    <ClCompile Include="src\DanmakuFactory.cpp" />
-    <ClCompile Include="src\DanmakusManager.cpp" />
-    <ClCompile Include="src\Displayer.cpp" />
-    <ClCompile Include="src\Controller.cpp" />
-    <ClCompile Include="src\R2LDanmaku.cpp" />
-    <ClCompile Include="src\Renderable.cpp" />
-    <ClCompile Include="src\DanmakusRetainer.cpp" />
-    <ClCompile Include="src\WTFWindow.cpp" />
-    <ClCompile Include="src\TopDanmaku.cpp" />
-    <ClCompile Include="src\WinmmTimer.cpp" />
-    <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\WTFEngine.cpp" />
-    <ClCompile Include="src\WTFDanmaku.cpp" />
-  </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+    <ItemGroup Label="ProjectConfigurations">
+        <ProjectConfiguration Include="Debug|Win32">
+            <Configuration>Debug</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Debug|x64">
+            <Configuration>Debug</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|Win32">
+            <Configuration>Release</Configuration>
+            <Platform>Win32</Platform>
+        </ProjectConfiguration>
+        <ProjectConfiguration Include="Release|x64">
+            <Configuration>Release</Configuration>
+            <Platform>x64</Platform>
+        </ProjectConfiguration>
+    </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>{817EBE08-2BE4-4251-92D0-117822D8F16A}</ProjectGuid>
+        <Keyword>Win32Proj</Keyword>
+        <RootNamespace>libwtfdanmaku</RootNamespace>
+        <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+        <ConfigurationType>DynamicLibrary</ConfigurationType>
+        <UseDebugLibraries>true</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+        <ConfigurationType>DynamicLibrary</ConfigurationType>
+        <UseDebugLibraries>true</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+        <ConfigurationType>DynamicLibrary</ConfigurationType>
+        <UseDebugLibraries>false</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+        <ConfigurationType>DynamicLibrary</ConfigurationType>
+        <UseDebugLibraries>false</UseDebugLibraries>
+        <PlatformToolset>v143</PlatformToolset>
+        <WholeProgramOptimization>true</WholeProgramOptimization>
+        <CharacterSet>Unicode</CharacterSet>
+    </PropertyGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+    <ImportGroup Label="ExtensionSettings">
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+        <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform"/>
+    </ImportGroup>
+    <PropertyGroup Label="UserMacros"/>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <LinkIncremental>true</LinkIncremental>
+        <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+        <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <LinkIncremental>true</LinkIncremental>
+        <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+        <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <LinkIncremental>false</LinkIncremental>
+        <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+        <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <LinkIncremental>false</LinkIncremental>
+        <OutDir>$(SolutionDir)$(Configuration)\$(Platform)\</OutDir>
+        <IntDir>$(Configuration)\$(Platform)\</IntDir>
+    </PropertyGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <Optimization>Disabled</Optimization>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+            <MultiProcessorCompilation>true</MultiProcessorCompilation>
+        </ClCompile>
+        <Link>
+            <SubSystem>Windows</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <Optimization>Disabled</Optimization>
+            <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+        </ClCompile>
+        <Link>
+            <SubSystem>Windows</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <Optimization>MaxSpeed</Optimization>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+            <MultiProcessorCompilation>true</MultiProcessorCompilation>
+        </ClCompile>
+        <Link>
+            <SubSystem>Windows</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <ClCompile>
+            <WarningLevel>Level3</WarningLevel>
+            <Optimization>MaxSpeed</Optimization>
+            <FunctionLevelLinking>true</FunctionLevelLinking>
+            <IntrinsicFunctions>true</IntrinsicFunctions>
+            <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBWTFDANMAKU_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <SDLCheck>true</SDLCheck>
+            <AdditionalIncludeDirectories>$(ProjectDir)3rdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+        </ClCompile>
+        <Link>
+            <SubSystem>Windows</SubSystem>
+            <GenerateDebugInformation>true</GenerateDebugInformation>
+            <AdditionalDependencies>dxgi.lib;d3d11.lib;d2d1.lib;dcomp.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <EnableCOMDATFolding>true</EnableCOMDATFolding>
+            <OptimizeReferences>true</OptimizeReferences>
+        </Link>
+    </ItemDefinitionGroup>
+    <ItemGroup>
+        <ClInclude Include="include\WTFDanmaku.h"/>
+        <ClInclude Include="include\WTFEngine.hpp"/>
+        <ClInclude Include="include\WTFWindow.hpp"/>
+        <ClInclude Include="include\WTF_API.h"/>
+        <ClInclude Include="src\BaseDanmaku.hpp"/>
+        <ClInclude Include="src\base\Atomic.hpp"/>
+        <ClInclude Include="src\base\Atomic_GCC.hpp"/>
+        <ClInclude Include="src\base\Atomic_Win32.hpp"/>
+        <ClInclude Include="src\base\Noncopyable.hpp"/>
+        <ClInclude Include="src\base\RefBase.hpp"/>
+        <ClInclude Include="src\base\RefCounted.hpp"/>
+        <ClInclude Include="src\base\RefPtr.hpp"/>
+        <ClInclude Include="src\base\SmartRef.hpp"/>
+        <ClInclude Include="src\BilibiliParser.hpp"/>
+        <ClInclude Include="src\OutlineTextRenderer.hpp"/>
+        <ClInclude Include="src\BottomDanmaku.hpp"/>
+        <ClInclude Include="src\DanmakusManager.hpp"/>
+        <ClInclude Include="src\Displayer.hpp"/>
+        <ClInclude Include="src\DisplayerImpl.hpp"/>
+        <ClInclude Include="src\DanmakuConfig.hpp"/>
+        <ClInclude Include="src\ITimer.hpp"/>
+        <ClInclude Include="src\IParser.hpp"/>
+        <ClInclude Include="src\R2LDanmaku.hpp"/>
+        <ClInclude Include="src\Renderable.hpp"/>
+        <ClInclude Include="src\DanmakusRetainer.hpp"/>
+        <ClInclude Include="src\Controller.hpp"/>
+        <ClInclude Include="src\Win32Mutex.hpp"/>
+        <ClInclude Include="src\DanmakuFactory.hpp"/>
+        <ClInclude Include="src\Noncopyable.hpp"/>
+        <ClInclude Include="src\Rect.hpp"/>
+        <ClInclude Include="src\TopDanmaku.hpp"/>
+        <ClInclude Include="src\WinmmTimer.hpp"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ClCompile Include="src\BilibiliParser.cpp"/>
+        <ClCompile Include="src\OutlineTextRenderer.cpp"/>
+        <ClCompile Include="src\BottomDanmaku.cpp"/>
+        <ClCompile Include="src\DisplayerImpl.cpp"/>
+        <ClCompile Include="src\BaseDanmaku.cpp"/>
+        <ClCompile Include="src\DanmakuFactory.cpp"/>
+        <ClCompile Include="src\DanmakusManager.cpp"/>
+        <ClCompile Include="src\Displayer.cpp"/>
+        <ClCompile Include="src\Controller.cpp"/>
+        <ClCompile Include="src\R2LDanmaku.cpp"/>
+        <ClCompile Include="src\Renderable.cpp"/>
+        <ClCompile Include="src\DanmakusRetainer.cpp"/>
+        <ClCompile Include="src\WTFWindow.cpp"/>
+        <ClCompile Include="src\TopDanmaku.cpp"/>
+        <ClCompile Include="src\WinmmTimer.cpp"/>
+        <ClCompile Include="src\dllmain.cpp"/>
+        <ClCompile Include="src\WTFEngine.cpp"/>
+        <ClCompile Include="src\WTFDanmaku.cpp"/>
+    </ItemGroup>
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+    <ImportGroup Label="ExtensionTargets">
+    </ImportGroup>
 </Project>

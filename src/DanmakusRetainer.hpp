@@ -10,14 +10,16 @@
 
 using std::unique_ptr;
 
-namespace WTFDanmaku {
-
+namespace WTFDanmaku
+{
     class Displayer;
 
-    class IDanmakusRetainer : public Noncopyable {
+    class IDanmakusRetainer : public Noncopyable
+    {
     protected:
-        typedef std::map<int, DanmakuRef, std::less<int>> Danmakus;
-        typedef std::map<int, DanmakuRef, std::greater<int>> DecDanmakus;
+        using Danmakus = std::map<int, DanmakuRef, std::less<int>>;
+        using DecDanmakus = std::map<int, DanmakuRef, std::greater<int>>;
+
     public:
         IDanmakusRetainer() = default;
         virtual ~IDanmakusRetainer() = default;
@@ -26,17 +28,18 @@ namespace WTFDanmaku {
         virtual void Release() = 0;
     };
 
-    class DanmakusRetainer : public Noncopyable {
+    class DanmakusRetainer : public Noncopyable
+    {
     public:
         void Add(DanmakuRef danmaku, Displayer* displayer, DanmakuConfig* config, time_t currentMillis);
         void Clear();
         void Release();
+
     private:
         unique_ptr<IDanmakusRetainer> mR2LRetainer = nullptr;
         unique_ptr<IDanmakusRetainer> mTopRetainer = nullptr;
         unique_ptr<IDanmakusRetainer> mBottomRetainer = nullptr;
     };
-
 }
 
 #endif // _WTF_DANMAKU_RETAINER_HPP

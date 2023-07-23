@@ -4,19 +4,21 @@
 #include "WinmmTimer.hpp"
 #include "Controller.hpp"
 
-namespace WTFDanmaku {
-    
-    Controller::Controller() {
-
+namespace WTFDanmaku
+{
+    Controller::Controller()
+    {
     }
 
-    Controller::~Controller() {
+    Controller::~Controller()
+    {
         Stop();
         Terminate();
     }
 
-    int Controller::Initialize(void* hwnd, uint32_t initialWidth, uint32_t initialHeight) {
-        if (hwnd == NULL && (initialWidth == 0 || initialHeight == 0))
+    int Controller::Initialize(void* hwnd, uint32_t initialWidth, uint32_t initialHeight)
+    {
+        if (hwnd == nullptr && (initialWidth == 0 || initialHeight == 0))
             return -1;
 
         mHwnd = hwnd;
@@ -28,7 +30,8 @@ namespace WTFDanmaku {
         mDisplayer->SetTarget(mHwnd, initialWidth, initialHeight);
 
         bool succeed = mDisplayer->SetupBackend();
-        if (!succeed) {
+        if (!succeed)
+        {
             mHasBackend = false;
             return -1;
         }
@@ -36,71 +39,91 @@ namespace WTFDanmaku {
         return 0;
     }
 
-    void Controller::Terminate() {
-        if (mHasBackend) {
+    void Controller::Terminate()
+    {
+        if (mHasBackend)
+        {
             mDisplayer->TeardownBackend();
             mHasBackend = false;
         }
     }
 
-    int Controller::QuerySwapChain(const void* pGuid, void** ppObject) {
+    int Controller::QuerySwapChain(const void* pGuid, void** ppObject)
+    {
         if (mDisplayer == nullptr)
             return -1;
 
         return mDisplayer->QuerySwapChain(pGuid, ppObject);
     }
 
-    bool Controller::HasCommands() {
+    bool Controller::HasCommands()
+    {
         std::lock_guard<Win32Mutex> locker(mCommandQueueMutex);
         bool result = !mCommandQueue.empty();
         return result;
     }
 
-    void Controller::PushCommand(const Command& cmd) {
+    void Controller::PushCommand(const Command& cmd)
+    {
         std::lock_guard<Win32Mutex> locker(mCommandQueueMutex);
         mCommandQueue.push(cmd);
     }
 
-    Controller::Command Controller::PopCommand() {
+    Controller::Command Controller::PopCommand()
+    {
         std::lock_guard<Win32Mutex> locker(mCommandQueueMutex);
         Command cmd = mCommandQueue.front();
         mCommandQueue.pop();
         return cmd;
     }
 
-    DanmakusManager* Controller::GetManager() {
+    DanmakusManager* Controller::GetManager()
+    {
         return mManager.get();
     }
 
-    bool Controller::IsRunning() {
+    bool Controller::IsRunning()
+    {
         return mStatus == State::kRunning;
     }
 
-    Controller::State Controller::GetState() {
+    Controller::State Controller::GetState()
+    {
         return mStatus;
     }
 
-    void Controller::Start() {
-        if (mStatus == State::kRunning) {
+    void Controller::Start()
+    {
+        if (mStatus == State::kRunning)
+        {
             // ignore
-        } else if (mStatus == State::kPaused) {
+        }
+        else if (mStatus == State::kPaused)
+        {
             Resume();
-        } else {
-            if (mWorker.joinable()) {
+        }
+        else
+        {
+            if (mWorker.joinable())
+            {
                 mWorker.detach();
             }
             mWorker = std::thread(&Controller::Working, this);
         }
     }
-    
-    void Controller::Pause() {
-        if (mStatus == State::kRunning) {
+
+    void Controller::Pause()
+    {
+        if (mStatus == State::kRunning)
+        {
             PushCommand(Cmd::kPause);
         }
     }
 
-    void Controller::Resume() {
-        if (mStatus == State::kPaused) {
+    void Controller::Resume()
+    {
+        if (mStatus == State::kPaused)
+        {
             std::unique_lock<std::mutex> locker(mConditionMutex);
             mStatus = State::kRunning;
             PushCommand(Cmd::kResume);
@@ -108,21 +131,27 @@ namespace WTFDanmaku {
         }
     }
 
-    void Controller::Stop() {
-        if (mStatus == State::kRunning || mStatus == State::kPaused) {
-            if (mStatus == State::kPaused) {
+    void Controller::Stop()
+    {
+        if (mStatus == State::kRunning || mStatus == State::kPaused)
+        {
+            if (mStatus == State::kPaused)
+            {
                 Resume();
             }
 
             PushCommand(Cmd::kStop);
-            if (mWorker.joinable()) {
+            if (mWorker.joinable())
+            {
                 mWorker.join();
             }
         }
     }
 
-    void Controller::SeekTo(time_t milliseconds) {
-        if (mStatus == State::kRunning || mStatus == State::kPaused) {
+    void Controller::SeekTo(time_t milliseconds)
+    {
+        if (mStatus == State::kRunning || mStatus == State::kPaused)
+        {
             Command cmd(Cmd::kSeek);
             cmd.arg1 = *reinterpret_cast<int*>(&milliseconds);
             cmd.arg2 = *(reinterpret_cast<int*>(&milliseconds) + 1);
@@ -130,8 +159,10 @@ namespace WTFDanmaku {
         }
     }
 
-    void Controller::Resize(uint32_t width, uint32_t height) {
-        if (mStatus == State::kRunning || mStatus == State::kPaused) {
+    void Controller::Resize(uint32_t width, uint32_t height)
+    {
+        if (mStatus == State::kRunning || mStatus == State::kPaused)
+        {
             Command cmd(Cmd::kResize);
             cmd.arg1 = width;
             cmd.arg2 = height;
@@ -139,61 +170,71 @@ namespace WTFDanmaku {
         }
     }
 
-    void Controller::ReLayout() {
-        if (mStatus == State::kRunning || mStatus == State::kPaused) {
+    void Controller::ReLayout()
+    {
+        if (mStatus == State::kRunning || mStatus == State::kPaused)
+        {
             PushCommand(Cmd::kReLayout);
         }
     }
 
-    time_t Controller::GetCurrentPosition() {
+    time_t Controller::GetCurrentPosition()
+    {
         return mTimer->GetMilliseconds();
     }
 
-    void Controller::HandleCommand() {
+    void Controller::HandleCommand()
+    {
         if (!HasCommands())
             return;
 
-        while (HasCommands()) {
+        while (HasCommands())
+        {
             Command cmd = PopCommand();
 
-            switch (cmd.what) {
-                case Cmd::kResume:
-                    mTimer->Resume();
-                    mStatus = State::kRunning;
-                    break;
-                case Cmd::kPause:
-                    if (mStatus == State::kRunning) {
-                        mTimer->Pause();
-                        std::unique_lock<std::mutex> locker(mConditionMutex);
-                        mStatus = State::kPaused;
-                        while (mStatus == State::kPaused) {
-                            mCondition.wait(locker);
-                        }
+            switch (cmd.what)
+            {
+            case Cmd::kResume:
+                mTimer->Resume();
+                mStatus = State::kRunning;
+                break;
+            case Cmd::kPause:
+                if (mStatus == State::kRunning)
+                {
+                    mTimer->Pause();
+                    std::unique_lock<std::mutex> locker(mConditionMutex);
+                    mStatus = State::kPaused;
+                    while (mStatus == State::kPaused)
+                    {
+                        mCondition.wait(locker);
                     }
-                    break;
-                case Cmd::kSeek:
-                    if (mStatus == State::kRunning) {
-                        time_t timepoint = 0;
-                        *reinterpret_cast<int*>(&timepoint) = cmd.arg1;
-                        *(reinterpret_cast<int*>(&timepoint) + 1) = cmd.arg2;
-                        mManager->SeekTo(timepoint);
-                    }
-                    break;
-                case Cmd::kResize:
-                    mDisplayer->Resize(cmd.arg1, cmd.arg2);
-                    mManager->GetConfig()->MeasureFlag++;
-                    break;
-                case Cmd::kReLayout:
-                    mManager->ReLayout();
-                    break;
-                case Cmd::kStop:
-                    mStatus = State::kStopped;
-                    break;
+                }
+                break;
+            case Cmd::kSeek:
+                if (mStatus == State::kRunning)
+                {
+                    time_t timepoint = 0;
+                    *reinterpret_cast<int*>(&timepoint) = cmd.arg1;
+                    *(reinterpret_cast<int*>(&timepoint) + 1) = cmd.arg2;
+                    mManager->SeekTo(timepoint);
+                }
+                break;
+            case Cmd::kResize:
+                mDisplayer->Resize(cmd.arg1, cmd.arg2);
+                mManager->GetConfig()->MeasureFlag++;
+                break;
+            case Cmd::kReLayout:
+                mManager->ReLayout();
+                break;
+            case Cmd::kStop:
+                mStatus = State::kStopped;
+                break;
             }
         }
     }
 
-    void Controller::Working() {
+    void Controller::Working()
+    {
         if (!mHasBackend) DebugBreak();
 
         mStatus = State::kRunning;
@@ -201,17 +242,22 @@ namespace WTFDanmaku {
 
         RenderingStatistics statistics;
 
-        while (mStatus == State::kRunning || mStatus == State::kPaused) {
+        while (mStatus == State::kRunning || mStatus == State::kPaused)
+        {
             HandleCommand();
-            if (mStatus == State::kPaused) {
+            if (mStatus == State::kPaused)
+            {
                 std::this_thread::yield();
                 continue;
-            } else if (mStatus == State::kStopped) {
+            }
+            if (mStatus == State::kStopped)
+            {
                 break;
             }
 
             statistics = mManager->DrawDanmakus(mDisplayer.get());
-            if (FAILED(statistics.lastHr)) {
+            if (FAILED(statistics.lastHr))
+            {
                 std::wstring message(L"Received HRESULT Error from DrawDanmakus, hr = ");
                 message.append(std::to_wstring(statistics.lastHr));
                 message.append(L"\n");
@@ -222,5 +268,4 @@ namespace WTFDanmaku {
         mTimer->Stop();
         mManager->ReleaseActiveResources();
     }
-
 }

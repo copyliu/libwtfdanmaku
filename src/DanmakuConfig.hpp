@@ -4,14 +4,16 @@
 #include <string>
 #include <dwrite.h>
 
-namespace WTFDanmaku {
-
-    enum DanmakuStyle : int {
+namespace WTFDanmaku
+{
+    enum DanmakuStyle : int
+    {
         kOutline = 1,
         kProjection = 2
     };
 
-    struct DanmakuConfig {
+    struct DanmakuConfig
+    {
         bool TopVisible = true;
         bool R2LVisible = true;
 
@@ -34,7 +36,6 @@ namespace WTFDanmaku {
         DWRITE_FONT_STYLE FontStyle = DWRITE_FONT_STYLE_NORMAL;
         DWRITE_FONT_STRETCH FontStretch = DWRITE_FONT_STRETCH_NORMAL;
     };
-
 }
 
 #endif // _WTF_DANMAKU_CONFIG_HPP

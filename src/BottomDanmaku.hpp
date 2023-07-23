@@ -3,22 +3,26 @@
 
 #include "TopDanmaku.hpp"
 
-namespace WTFDanmaku {
-
-    class BottomDanmaku : public TopDanmaku {
+namespace WTFDanmaku
+{
+    class BottomDanmaku : public TopDanmaku
+    {
     public:
-        static inline DanmakuRef Create() {
+        static DanmakuRef Create()
+        {
             return xl::RefPtr<BottomDanmaku>(new BottomDanmaku);
         }
+
         static std::unique_ptr<IDanmakusRetainer> CreateRetainer();
+
     public:
         explicit BottomDanmaku() = default;
-        virtual ~BottomDanmaku() override;
-        virtual DanmakuType GetType() override;
+        ~BottomDanmaku() override;
+        DanmakuType GetType() override;
+
     private:
         class BottomRetainer;
     };
-
 }
 
 

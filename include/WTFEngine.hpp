@@ -4,11 +4,12 @@
 #include <cstdint>
 #include "WTF_API.h"
 
-namespace WTFDanmaku {
-
+namespace WTFDanmaku
+{
     class Controller;
 
-    enum Type : int {
+    enum Type : int
+    {
         Scrolling = 1,
         Bottom = 4,
         Top = 5,
@@ -17,12 +18,14 @@ namespace WTFDanmaku {
         Advanced = 8
     };
 
-    enum Style : int {
+    enum Style : int
+    {
         Outline = 1,
         Projection = 2
     };
 
-    class WTF_API WTFEngine {
+    class WTF_API WTFEngine
+    {
     public:
         explicit WTFEngine();
         ~WTFEngine();
@@ -32,8 +35,10 @@ namespace WTFDanmaku {
         int QuerySwapChain(const void* pGuid, void** ppObject);
         void LoadBilibiliFile(const char* filePath);
         void LoadBilibiliXml(const char* str);
-        void AddDanmaku(Type type, time_t time, const wchar_t* comment, int fontSize, int fontColor, time_t timestamp = 0, int danmakuId = 0);
-        void AddLiveDanmaku(Type type, time_t time, const wchar_t* comment, int fontSize, int fontColor, time_t timestamp = 0, int danmakuId = 0);
+        void AddDanmaku(Type type, time_t time, const wchar_t* comment, int fontSize, int fontColor,
+                        time_t timestamp = 0, int danmakuId = 0);
+        void AddLiveDanmaku(Type type, time_t time, const wchar_t* comment, int fontSize, int fontColor,
+                            time_t timestamp = 0, int danmakuId = 0);
         void Start();
         void Pause();
         void Resume();
@@ -50,13 +55,14 @@ namespace WTFDanmaku {
         void SetFontStretch(int dwriteFontStretch);
         void SetDanmakuStyle(Style style);
         void SetCompositionOpacity(float opacity);
+
     private:
         WTFEngine(const WTFEngine&) = delete;
         WTFEngine& operator=(const WTFEngine&) = delete;
+
     private:
         Controller* mController;
     };
-
 }
 
 

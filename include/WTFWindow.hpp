@@ -5,9 +5,10 @@
 #include <cstdint>
 #include "WTF_API.h"
 
-namespace WTFDanmaku {
-
-    class WTF_API WTFWindow {
+namespace WTFDanmaku
+{
+    class WTF_API WTFWindow
+    {
     public:
         explicit WTFWindow(HINSTANCE hInst, int nCmdShow);
         ~WTFWindow();
@@ -17,23 +18,25 @@ namespace WTFDanmaku {
         int Run();
         HWND GetHwnd();
         LRESULT DefaultWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
     private:
         ATOM RegisterWindowClass();
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
     private:
         WTFWindow(const WTFWindow&) = delete;
         WTFWindow& operator=(const WTFWindow&) = delete;
+
     private:
         int m_nCmdShow = 0;
-        HINSTANCE m_hInstance = NULL;
-        WNDPROC m_CustomWndProc = NULL;
-        HWND m_hWindow = NULL;
+        HINSTANCE m_hInstance = nullptr;
+        WNDPROC m_CustomWndProc = nullptr;
+        HWND m_hWindow = nullptr;
         PWSTR m_WindowClassName = L"WTFDanmaku";
 
         uint32_t m_ClientWidth = 0;
         uint32_t m_ClientHeight = 0;
     };
-
 }
 
 #endif // _WTF_SAMPLE_WINDOW_HPP

@@ -12,9 +12,10 @@
 using std::shared_ptr;
 using std::weak_ptr;
 
-namespace WTFDanmaku {
-
-    enum DanmakuType : int {
+namespace WTFDanmaku
+{
+    enum DanmakuType : int
+    {
         kNull = 0,
         kScrolling = 1,
         kBottom = 4,
@@ -27,20 +28,24 @@ namespace WTFDanmaku {
     class Displayer;
     class Renderable;
     struct DanmakuConfig;
-    
-    class BaseDanmaku : public xl::RefBase {
+
+    class BaseDanmaku : public xl::RefBase
+    {
         friend class DanmakuFactory;
         friend class Renderable;
+
     public:
         explicit BaseDanmaku();
 
-        virtual ~BaseDanmaku();
+        ~BaseDanmaku() override;
 
-        inline float GetWidth() {
+        float GetWidth()
+        {
             return mTextWidth;
         }
 
-        inline float GetHeight() {
+        float GetHeight()
+        {
             return mTextHeight;
         }
 
@@ -48,17 +53,20 @@ namespace WTFDanmaku {
 
         bool HasLayout(DanmakuConfig* config);
 
-        inline bool HasRenderable() {
+        bool HasRenderable()
+        {
             return mRenderable != nullptr;
         }
 
         weak_ptr<Renderable> BuildRenderable(Displayer* displayer, DanmakuConfig* config);
 
-        inline weak_ptr<Renderable> GetRenderable() {
+        weak_ptr<Renderable> GetRenderable()
+        {
             return weak_ptr<Renderable>(mRenderable);
         }
 
-        inline void ReleaseRenderable() {
+        void ReleaseRenderable()
+        {
             mRenderable.reset();
         }
 
@@ -78,25 +86,31 @@ namespace WTFDanmaku {
 
         virtual Rect<float> GetRectAtTime(Displayer* displayer, time_t time) = 0;
 
-        inline time_t GetStartTime() {
+        time_t GetStartTime()
+        {
             return mStartTime;
         }
 
-        inline void SetStartTime(time_t time) {
+        void SetStartTime(time_t time)
+        {
             mStartTime = time;
         }
 
-        inline Rect<float> GetRect() {
+        Rect<float> GetRect()
+        {
             return mRect;
         }
 
-        inline time_t GetSendTimestamp() {
+        time_t GetSendTimestamp()
+        {
             return mTimestamp;
         }
 
-        inline uint32_t GetDanmakuId() {
+        uint32_t GetDanmakuId()
+        {
             return mDanmakuId;
         }
+
     protected:
         time_t mStartTime = 0;
         time_t mDuration = 0;
@@ -104,6 +118,7 @@ namespace WTFDanmaku {
         float mTextWidth = -1.0f;
         float mTextHeight = -1.0f;
         int mLayoutFlag = -1;
+
     private:
         std::wstring mComment;
         float mTextSize = 0.0f;
@@ -116,8 +131,7 @@ namespace WTFDanmaku {
         shared_ptr<Renderable> mRenderable;
     };
 
-    typedef xl::RefPtr<BaseDanmaku> DanmakuRef;
-
+    using DanmakuRef = xl::RefPtr<BaseDanmaku>;
 }
 
 #endif // _WTF_BASE_DANMAKU_HPP

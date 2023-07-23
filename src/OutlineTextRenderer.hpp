@@ -8,9 +8,10 @@
 
 using Microsoft::WRL::ComPtr;
 
-namespace WTFDanmaku {
-
-    class OutlineTextRenderer : public IDWriteTextRenderer {
+namespace WTFDanmaku
+{
+    class OutlineTextRenderer : public IDWriteTextRenderer
+    {
     public:
         explicit OutlineTextRenderer(
             ComPtr<ID2D1Factory1> d2dFactory,
@@ -25,43 +26,43 @@ namespace WTFDanmaku {
         IFACEMETHOD(IsPixelSnappingDisabled)(
             __maybenull void* clientDrawingContext,
             __out BOOL* isDisabled
-        );
+        ) override;
 
         IFACEMETHOD(GetCurrentTransform)(
             __maybenull void* clientDrawingContext,
             __out DWRITE_MATRIX* transform
-        );
+        ) override;
 
         IFACEMETHOD(GetPixelsPerDip)(
             __maybenull void* clientDrawingContext,
             __out FLOAT* pixelsPreDip
-        );
+        ) override;
 
         IFACEMETHOD(DrawGlyphRun)(
             __maybenull void* clientDrawingContext,
             float baselineOriginX,
             float baselineOriginY,
             DWRITE_MEASURING_MODE measuringMode,
-            __in DWRITE_GLYPH_RUN const* glyphRun,
-            __in DWRITE_GLYPH_RUN_DESCRIPTION const* glyphRunDescription,
+            __in const DWRITE_GLYPH_RUN* glyphRun,
+            __in const DWRITE_GLYPH_RUN_DESCRIPTION* glyphRunDescription,
             IUnknown* clientDrawingEffect
-        );
+        ) override;
 
         IFACEMETHOD(DrawUnderline)(
             __maybenull void* clientDrawingContext,
             float baselineOriginX,
             float baselineOriginY,
-            __in DWRITE_UNDERLINE const* underline,
+            __in const DWRITE_UNDERLINE* underline,
             IUnknown* clientDrawingEffect
-        );
+        ) override;
 
         IFACEMETHOD(DrawStrikethrough)(
             __maybenull void* clientDrawingContext,
             float baselineOriginX,
             float baselineOriginY,
-            __in DWRITE_STRIKETHROUGH const* strikeThrough,
+            __in const DWRITE_STRIKETHROUGH* strikeThrough,
             IUnknown* clientDrawingEffect
-        );
+        ) override;
 
         IFACEMETHOD(DrawInlineObject)(
             __maybenull void* clientDrawingContext,
@@ -71,14 +72,16 @@ namespace WTFDanmaku {
             BOOL isSideways,
             BOOL isRightToLeft,
             IUnknown* clientDrawingEffect
-        );
+        ) override;
+
     public:
-        IFACEMETHOD_(unsigned long, AddRef) ();
-        IFACEMETHOD_(unsigned long, Release) ();
+        IFACEMETHOD_(unsigned long, AddRef)() override;
+        IFACEMETHOD_(unsigned long, Release)() override;
         IFACEMETHOD(QueryInterface)(
-            IID const& riid,
+            const IID& riid,
             void** ppvObject
-        );
+        ) override;
+
     private:
         unsigned long mRefCount;
         ComPtr<ID2D1Factory1> mD2DFactory;
@@ -87,7 +90,6 @@ namespace WTFDanmaku {
         float mOutlineStrokeWidth;
         ComPtr<ID2D1SolidColorBrush> mFillBrush;
     };
-
 }
 
 #endif // _WTF_OUTLINE_TEXT_RENDERER_HPP

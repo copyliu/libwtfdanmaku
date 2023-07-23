@@ -4,29 +4,33 @@
 #include "DanmakuConfig.hpp"
 #include "DisplayerImpl.hpp"
 
-namespace WTFDanmaku {
-
-    DisplayerImpl::DisplayerImpl(Displayer* outer) : mOuter(outer) {
-
+namespace WTFDanmaku
+{
+    DisplayerImpl::DisplayerImpl(Displayer* outer) : mOuter(outer)
+    {
     }
 
-    DisplayerImpl::~DisplayerImpl() {
-        if (mHasBackend) {
+    DisplayerImpl::~DisplayerImpl()
+    {
+        if (mHasBackend)
+        {
             TeardownBackend();
         }
     }
 
-    void DisplayerImpl::SetTarget(HWND windowHandle, uint32_t initialWidth, uint32_t initialHeight) {
+    void DisplayerImpl::SetTarget(HWND windowHandle, uint32_t initialWidth, uint32_t initialHeight)
+    {
         mHwnd = windowHandle;
         mWidth = initialWidth;
         mHeight = initialHeight;
     }
 
-    bool DisplayerImpl::SetupBackend() {
+    bool DisplayerImpl::SetupBackend()
+    {
         if (mHasBackend)
             return false;
 
-        if (mHwnd == NULL && (mWidth == 0 || mHeight == 0))
+        if (mHwnd == nullptr && (mWidth == 0 || mHeight == 0))
             return false;
 
         HRESULT hr = CreateDeviceIndependentResources();
@@ -41,7 +45,8 @@ namespace WTFDanmaku {
         if (FAILED(hr))
             return false;
 
-        if (mHwnd) {
+        if (mHwnd)
+        {
             hr = CreateDCompResources();
             if (FAILED(hr))
                 return false;
@@ -51,15 +56,21 @@ namespace WTFDanmaku {
         return true;
     }
 
-    HRESULT DisplayerImpl::QuerySwapChain(const IID* pGuid, void** ppvObject) {
+    HRESULT DisplayerImpl::QuerySwapChain(const IID* pGuid, void** ppvObject)
+    {
         if (pGuid == nullptr || ppvObject == nullptr || mSwapChain == nullptr)
             return E_FAIL;
 
-        if (__uuidof(IDXGISwapChain) == *pGuid) {
+        if (__uuidof(IDXGISwapChain) == *pGuid)
+        {
             *ppvObject = static_cast<IDXGISwapChain*>(mSwapChain.Get());
-        } else if (__uuidof(IDXGISwapChain1) == *pGuid) {
+        }
+        else if (__uuidof(IDXGISwapChain1) == *pGuid)
+        {
             *ppvObject = mSwapChain.Get();
-        } else {
+        }
+        else
+        {
             *ppvObject = nullptr;
             return E_FAIL;
         }
@@ -68,8 +79,9 @@ namespace WTFDanmaku {
         return S_OK;
     }
 
-    HRESULT DisplayerImpl::CreateDeviceIndependentResources() {
-        HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), (IUnknown**)&mDWriteFactory);
+    HRESULT DisplayerImpl::CreateDeviceIndependentResources()
+    {
+        HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), &mDWriteFactory);
         if (FAILED(hr))
             return hr;
 
@@ -87,12 +99,14 @@ namespace WTFDanmaku {
 #pragma warning(disable:4996) //GetDesktopDpi死了  GetDpiForWindow 要1607, 等我之后找个借口鲨了win8就可以打开这个开关了!
         mD2DFactory->GetDesktopDpi(&mDpiX, &mDpiY);
         // mDpiX = mDpiY = static_cast<FLOAT>(GetDpiForWindow(mHwnd));
-#pragma warning(pop) 
+#pragma warning(pop)
         return hr;
     }
 
     HRESULT DisplayerImpl::CreateD3D11Device(IDXGIAdapter* adapter, D3D_DRIVER_TYPE driverType, UINT flags,
-                                             ID3D11Device** ppDevice, ID3D11DeviceContext** ppDevCtx, D3D_FEATURE_LEVEL* resultLevel) {
+                                             ID3D11Device** ppDevice, ID3D11DeviceContext** ppDevCtx,
+                                             D3D_FEATURE_LEVEL* resultLevel)
+    {
         HRESULT hr = S_OK;
 
         static const D3D_FEATURE_LEVEL featureLevels[] = {
@@ -111,11 +125,13 @@ namespace WTFDanmaku {
         ID3D11Device* device = nullptr;
         ID3D11DeviceContext* devctx = nullptr;
 
-        hr = D3D11CreateDevice(adapter, driverType, 0, flags, featureLevels, arraySize, D3D11_SDK_VERSION, &device, &result, &devctx);
+        hr = D3D11CreateDevice(adapter, driverType, nullptr, flags, featureLevels, arraySize, D3D11_SDK_VERSION,
+                               &device, &result, &devctx);
         if (FAILED(hr))
             return hr;
 
-        if (resultLevel) {
+        if (resultLevel)
+        {
             *resultLevel = result;
         }
         *ppDevice = device;
@@ -124,12 +140,17 @@ namespace WTFDanmaku {
         return hr;
     }
 
-    HRESULT DisplayerImpl::CreateDeviceResources() {
+    HRESULT DisplayerImpl::CreateDeviceResources()
+    {
         UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
-        HRESULT hr = CreateD3D11Device(nullptr, D3D_DRIVER_TYPE_HARDWARE, creationFlags, &mD3DDevice, &mD3DDeviceContext, &mCurrentFeatureLevel);
-        if (FAILED(hr)) {    // fallback to software wrap device
-            hr = CreateD3D11Device(nullptr, D3D_DRIVER_TYPE_WARP, creationFlags, &mD3DDevice, &mD3DDeviceContext, &mCurrentFeatureLevel);
+        HRESULT hr = CreateD3D11Device(nullptr, D3D_DRIVER_TYPE_HARDWARE, creationFlags, &mD3DDevice,
+                                       &mD3DDeviceContext, &mCurrentFeatureLevel);
+        if (FAILED(hr))
+        {
+            // fallback to software wrap device
+            hr = CreateD3D11Device(nullptr, D3D_DRIVER_TYPE_WARP, creationFlags, &mD3DDevice, &mD3DDeviceContext,
+                                   &mCurrentFeatureLevel);
         }
 
         if (FAILED(hr))
@@ -154,16 +175,18 @@ namespace WTFDanmaku {
         return hr;
     }
 
-    HRESULT DisplayerImpl::CreateTargetDependentResources() {
-        if (mHwnd) {
-            RECT rect = { 0 };
+    HRESULT DisplayerImpl::CreateTargetDependentResources()
+    {
+        if (mHwnd)
+        {
+            RECT rect = {0};
             GetClientRect(mHwnd, &rect);
 
             mWidth = rect.right - rect.left;
             mHeight = rect.bottom - rect.top;
         }
 
-        DXGI_SWAP_CHAIN_DESC1 description = { 0 };
+        DXGI_SWAP_CHAIN_DESC1 description = {0};
 
         description.Width = mWidth;
         description.Height = mHeight;
@@ -218,7 +241,8 @@ namespace WTFDanmaku {
         return hr;
     }
 
-    HRESULT DisplayerImpl::CreateDCompResources() {
+    HRESULT DisplayerImpl::CreateDCompResources()
+    {
         HRESULT hr = DCompositionCreateDevice(mDxgiDevice.Get(), IID_PPV_ARGS(&mDCompDevice));
         if (FAILED(hr))
             return hr;
@@ -244,7 +268,8 @@ namespace WTFDanmaku {
         return hr;
     }
 
-    HRESULT DisplayerImpl::HandleDeviceLost() {
+    HRESULT DisplayerImpl::HandleDeviceLost()
+    {
         HRESULT hr = CreateDeviceResources();
         if (FAILED(hr))
             return hr;
@@ -253,7 +278,8 @@ namespace WTFDanmaku {
         if (FAILED(hr))
             return hr;
 
-        if (mHwnd) {
+        if (mHwnd)
+        {
             hr = CreateDCompResources();
             if (FAILED(hr))
                 return hr;
@@ -264,8 +290,10 @@ namespace WTFDanmaku {
         return hr;
     }
 
-    bool DisplayerImpl::TeardownBackend() {
-        if (mInRendering) {
+    bool DisplayerImpl::TeardownBackend()
+    {
+        if (mInRendering)
+        {
             return false;
         }
         mDCompTarget.Reset();
@@ -289,8 +317,9 @@ namespace WTFDanmaku {
         mHasBackend = false;
         return true;
     }
-    
-    void DisplayerImpl::Resize(uint32_t width, uint32_t height) {
+
+    void DisplayerImpl::Resize(uint32_t width, uint32_t height)
+    {
         if (static_cast<int>(width) <= 0 || static_cast<int>(height) <= 0)
             return;
 
@@ -324,7 +353,8 @@ namespace WTFDanmaku {
         mDeviceContext->SetTarget(mSurfaceBitmap.Get());
     }
 
-    ComPtr<ID2D1Bitmap1> DisplayerImpl::CreateBitmap(uint32_t width, uint32_t height) {
+    ComPtr<ID2D1Bitmap1> DisplayerImpl::CreateBitmap(uint32_t width, uint32_t height)
+    {
         if (!mHasBackend)
             return nullptr;
 
@@ -349,34 +379,40 @@ namespace WTFDanmaku {
         return bitmap;
     }
 
-    ComPtr<ID2D1RenderTarget> DisplayerImpl::AcquireRenderTarget(ComPtr<ID2D1Bitmap1> bitmap) {
+    ComPtr<ID2D1RenderTarget> DisplayerImpl::AcquireRenderTarget(ComPtr<ID2D1Bitmap1> bitmap)
+    {
         mLendMutex.lock();
         mLendContext->SetTarget(bitmap.Get());
 
         return mLendContext;
     }
 
-    void DisplayerImpl::ReleaseRenderTarget(ComPtr<ID2D1RenderTarget> renderTarget) {
+    void DisplayerImpl::ReleaseRenderTarget(ComPtr<ID2D1RenderTarget> renderTarget)
+    {
         mLendContext->SetTarget(nullptr);
         mLendMutex.unlock();
     }
 
-    ComPtr<ID2D1Factory1> DisplayerImpl::GetD2DFactory() {
+    ComPtr<ID2D1Factory1> DisplayerImpl::GetD2DFactory()
+    {
         return mD2DFactory;
     }
 
-    ComPtr<IDWriteFactory> DisplayerImpl::GetDWriteFactory() {
+    ComPtr<IDWriteFactory> DisplayerImpl::GetDWriteFactory()
+    {
         return mDWriteFactory;
     }
 
-    void DisplayerImpl::DrawDanmakuItem(DanmakuRef item, time_t current, DanmakuConfig* config) {
+    void DisplayerImpl::DrawDanmakuItem(DanmakuRef item, time_t current, DanmakuConfig* config)
+    {
         if (!mHasBackend)
             return;
 
         if (!mInRendering)
             return;
 
-        if (mNeedRecreateBitmap) {
+        if (mNeedRecreateBitmap)
+        {
             config->BitmapValidFlag++;
             mNeedRecreateBitmap = false;
         }
@@ -391,7 +427,8 @@ namespace WTFDanmaku {
         if (renderable == nullptr)
             return;
 
-        if (!renderable->HasBitmap(config)) {
+        if (!renderable->HasBitmap(config))
+        {
             renderable->BuildBitmap(mOuter, config);
         }
 
@@ -409,17 +446,20 @@ namespace WTFDanmaku {
             left + size.width, top + size.height
         );
 
-        mDeviceContext->DrawBitmap(bitmap.Get(), dest, config->CompositionOpacity, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR);
+        mDeviceContext->DrawBitmap(bitmap.Get(), dest, config->CompositionOpacity,
+                                   D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR);
     }
 
-    void DisplayerImpl::BeginDraw() {
+    void DisplayerImpl::BeginDraw()
+    {
         mRenderMutex.lock();
         mInRendering = true;
         mDeviceContext->BeginDraw();
         mDeviceContext->Clear();
     }
 
-    HRESULT DisplayerImpl::EndDraw() {
+    HRESULT DisplayerImpl::EndDraw()
+    {
         HRESULT hr = mDeviceContext->EndDraw();
         mD3DDeviceContext->Flush();
         hr = mSwapChain->Present(1, 0);
@@ -430,5 +470,4 @@ namespace WTFDanmaku {
         mRenderMutex.unlock();
         return hr;
     }
-
 }

@@ -7,9 +7,10 @@
 #include "BaseDanmaku.hpp"
 #include "Noncopyable.hpp"
 
-namespace WTFDanmaku {
-
-    class IParser : public Noncopyable {
+namespace WTFDanmaku
+{
+    class IParser : public Noncopyable
+    {
     public:
         explicit IParser() = default;
         virtual ~IParser() = default;
@@ -18,8 +19,7 @@ namespace WTFDanmaku {
         virtual std::unique_ptr<std::vector<DanmakuRef>> GetDanmakus() = 0;
     };
 
-    typedef std::shared_ptr<IParser> ParserRef;
-
+    using ParserRef = std::shared_ptr<IParser>;
 }
 
 #endif // _WTF_IPARSER_HPP

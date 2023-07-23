@@ -4,48 +4,57 @@
 
 #pragma comment (lib, "winmm.lib")
 
-namespace WTFDanmaku {
-
-    time_t WinmmTimer::GetGlobalCurrent() {
+namespace WTFDanmaku
+{
+    time_t WinmmTimer::GetGlobalCurrent()
+    {
         return timeGetTime();
     }
 
-    WinmmTimer::WinmmTimer() {
+    WinmmTimer::WinmmTimer()
+    {
         timeBeginPeriod(1);
     }
 
-    WinmmTimer::~WinmmTimer() {
+    WinmmTimer::~WinmmTimer()
+    {
         timeEndPeriod(1);
     }
 
-    void WinmmTimer::Start() {
+    void WinmmTimer::Start()
+    {
         mTimeBase = 0;
         mBeginTime = timeGetTime();
     }
 
-    void WinmmTimer::Pause() {
+    void WinmmTimer::Pause()
+    {
         mTimeBase += timeGetTime() - mBeginTime;
     }
 
-    void WinmmTimer::Resume() {
+    void WinmmTimer::Resume()
+    {
         mBeginTime = timeGetTime();
     }
 
-    void WinmmTimer::Update() {
+    void WinmmTimer::Update()
+    {
         mCurrent = timeGetTime() - mBeginTime + mTimeBase;
     }
 
-    void WinmmTimer::Stop() {
+    void WinmmTimer::Stop()
+    {
         mBeginTime = 0;
         mTimeBase = 0;
     }
 
-    void WinmmTimer::AddOffset(int64_t offset) {
+    void WinmmTimer::AddOffset(int64_t offset)
+    {
         mTimeBase += offset;
     }
 
-    time_t WinmmTimer::GetMilliseconds() {
+    time_t WinmmTimer::GetMilliseconds()
+    {
         return mCurrent;
     }
-
 }

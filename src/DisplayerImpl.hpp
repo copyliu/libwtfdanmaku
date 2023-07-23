@@ -14,12 +14,13 @@
 
 using Microsoft::WRL::ComPtr;
 
-namespace WTFDanmaku {
-
+namespace WTFDanmaku
+{
     class Displayer;
     struct DanmakuConfig;
 
-    class DisplayerImpl : public Noncopyable {
+    class DisplayerImpl : public Noncopyable
+    {
     public:
         explicit DisplayerImpl(Displayer* outer);
         ~DisplayerImpl();
@@ -36,32 +37,40 @@ namespace WTFDanmaku {
         HRESULT EndDraw();
         ComPtr<ID2D1Factory1> GetD2DFactory();
         ComPtr<IDWriteFactory> GetDWriteFactory();
+
     public:
-        inline int GetWidth() {
+        int GetWidth()
+        {
             return mWidth;
         }
 
-        inline int GetHeight() {
+        int GetHeight()
+        {
             return mHeight;
         }
 
-        inline float GetDpiX() {
+        float GetDpiX()
+        {
             return mDpiX;
         }
 
-        inline float GetDpiY() {
+        float GetDpiY()
+        {
             return mDpiY;
         }
+
     private:
         static HRESULT CreateD3D11Device(IDXGIAdapter* adapter, D3D_DRIVER_TYPE driverType, UINT flags,
-                                         ID3D11Device** ppDevice, ID3D11DeviceContext** ppDevCtx, D3D_FEATURE_LEVEL* resultLevel);
+                                         ID3D11Device** ppDevice, ID3D11DeviceContext** ppDevCtx,
+                                         D3D_FEATURE_LEVEL* resultLevel);
         HRESULT CreateDeviceIndependentResources();
         HRESULT CreateDeviceResources();
         HRESULT CreateTargetDependentResources();
         HRESULT CreateDCompResources();
         HRESULT HandleDeviceLost();
+
     private:
-        HWND mHwnd = 0;
+        HWND mHwnd = nullptr;
         int mWidth = 0;
         int mHeight = 0;
         float mDpiX = 0.0f;
@@ -89,7 +98,6 @@ namespace WTFDanmaku {
         ComPtr<IDCompositionTarget> mDCompTarget;
         ComPtr<IDCompositionVisual> mDCompVisual;
     };
-
 }
 
 #endif // _WTF_DISPLAYER_IMPL_HPP
